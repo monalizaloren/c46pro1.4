@@ -30,11 +30,11 @@ class Game {
     form.display();
 
     car1 = createSprite(width / 2 - 50, height - 100);
-    car1.addImage("car1", car1_img);
+    car1.addImage("carro1", car1_img);
     car1.scale = 0.07;
 
     car2 = createSprite(width / 2 + 100, height - 100);
-    car2.addImage("car2", car2_img);
+    car2.addImage("carro2", car2_img);
     car2.scale = 0.07;
 
     cars = [car1, car2];
@@ -43,14 +43,17 @@ class Game {
     fuels = new Group();
     powerCoins = new Group();
     obstacle1 = new Group(); 
-    obstacle2 = new Group(); 
+    //Na linha acima, você tem o grupo do obstaculo 1 , faça o mesmo com o obstaculo 2
+    //???
     var obstacle1Positions = [
-      { x: width / 2 - 150, y: height - 1300, image: obstacle1Image },
-      { x: width / 2 + 250, y: height - 1800, image: obstacle1Image },
-      { x: width / 2 - 180, y: height - 3300, image: obstacle1Image },
+     /*Abaixo você contêm informações sobre as posições iniciais dos obstáculos do tipo 1 e do tipo 2, respectivamente. Cada objeto possui três propriedades: x, y e image.*/
+     //Adicione essas propriedades respectivamente
+     { ???: width / 2 - 150, ???: height - 1300, ???: obstacle1Image },
+      { ???: width / 2 + 250, ???: height - 1800, ???: obstacle1Image },
+      { ???: width / 2 - 180, ??: height - 3300, ???: obstacle1Image },
      
-      { x: width / 2 - 150, y: height - 4300, image: obstacle1Image },
-      { x: width / 2, y: height - 5300, image: obstacle1Image },
+      { ???: width / 2 - 150, ???: height - 4300, ???: obstacle1Image },
+      { ???: width / 2, ???: height - 5300, ???: obstacle1Image },
     ];
 
     var obstacle2Positions = [
@@ -76,25 +79,29 @@ class Game {
       obstacle1Positions
     );
     this.addSprites(
-      obstacle2,
-      obstacle2Positions.length,
-      obstacle2Image,
-      0.04,
-      obstacle2Positions
+      /* Nas linhas acima, você está criando o obstáculo 1, as posições e a imagem
+      faça o mesmo com o obstacle2*/
+      ???
     );
   }
 
-  // C38 TA
   addSprites(spriteGroup, numberOfSprites, spriteImage, scale, positions = []) {
+    /*  esse loop cria vários sprites para adicionar ao jogo.*/
     for (var i = 0; i < numberOfSprites; i++) {
       var x, y;
+      /* Esta linha abaixo começa uma declaração condicional que verifica se
+       a matriz positions tem algum objeto dentro dela. Se houver, isso significa
+        que as posições dos sprites foram fornecidas. Se não houver objetos, 
+        a função gerará aleatoriamente as posições para os sprites.*/
+
       if (positions.length > 0) {
         x = positions[i].x;
         y = positions[i].y;
         spriteImage = positions[i].image;
       } else {
-      x = random(width / 2 + 150, width / 2 - 150);
-      y = random(-height * 4.5, height - 400);
+        /* Digite a palavra 'random' para gerar números aleatórios*/
+      x = ???(width / 2 + 150, width / 2 - 150);
+      y = ???(-height * 4.5, height - 400);
       }
       var sprite = createSprite(x, y);
       sprite.addImage("sprite", spriteImage);
@@ -158,8 +165,8 @@ class Game {
 
           this.handleFuel(index);
           this.handlePowerCoins(index);
-          this.handleObstacleCollision(index);
-          // Alterando a posição da câmera na direção y
+          
+          // Altere a posição da câmera na direção y
           camera.position.x = cars[index - 1].position.x;
           camera.position.y = cars[index - 1].position.y;
 
@@ -170,7 +177,7 @@ class Game {
         player.update();
       }
 
-      // manipulação dos eventos do teclados
+      // manipulação dos eventos do teclado
       if (keyIsDown(UP_ARROW)) {
         player.positionY += 10;
         player.update();
@@ -200,29 +207,11 @@ class Game {
     pop();
   }
 
-  handleObstacleCollision(index) {
-    if(cars[index-1].collide(obstacle1) || cars[index-1].collide(obstacle2)) {
-
-    if (this.leftKeyActive) {
-      player.positionX += 100;
-    } else {
-      player.positionX -= 100;
-    }
-
-    if(player.life > 0){
-      player.life -= 185 / 4;
-    }
-
-      player.update();
-    }
-  }
-
   handleFuel(index) {
-    // Adicione o combustível
+    
     cars[index - 1].overlap(fuels, function(collector, collected) {
       player.fuel = 185;
-      //collected (coletado) é o sprite no grupo de colecionáveis que desencadeia
-      //o evento
+      
       collected.remove();
     });
     if (player.fuel > 0 && this.playerMoving) {
@@ -239,8 +228,7 @@ class Game {
     cars[index - 1].overlap(powerCoins, function(collector, collected) {
       player.score += 21;
       player.update();
-      //collected (coletado) é o sprite no grupo de colecionáveis que desencadeia
-      //o evento
+      
       collected.remove();
     });
   }
@@ -250,7 +238,6 @@ handleResetButton() {
     database.ref("/").set({
       playerCount: 0,
       gameState: 0,
-      carsAtEnd: 0,
       players: {}
     });
     window.location.reload();
@@ -312,7 +299,7 @@ showLeaderboard() {
 
 handlePlayerControls() {
   if (keyIsDown(UP_ARROW)) {
-    this.playerMoving = true; //C40 //SA
+    this.playerMoving = true; 
 
     player.positionY += 10;
     player.update();
@@ -330,7 +317,7 @@ handlePlayerControls() {
 }
 showRank() {
   swal({
-    title: `Incrível!${"\n"}Rank${"\n"}${player.rank}`,
+    title: `Incrível!${"\n"}Classificação${"\n"}${player.rank}`,
     text: "Você alcançou a linha de chegada com sucesso",
     imageUrl:
       "https://raw.githubusercontent.com/vishalgaddam873/p5-multiplayer-car-race-game/master/assets/cup.png",
